@@ -17,6 +17,8 @@ export class Game extends Scene
     player:Player;
     cursors:any;
 
+    private m_fireRate:number = 8;
+
     constructor ()
     {
         super('Game');
@@ -27,7 +29,7 @@ export class Game extends Scene
         this.camera = this.cameras.main;
 
         // Create HUD
-        this.gameHUD = new GameHUD(this);
+        //this.gameHUD = new GameHUD(this);
 
         // Generate Level
         //this.levelContainer = this.add.container(13, 13);

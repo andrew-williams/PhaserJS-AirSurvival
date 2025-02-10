@@ -16,7 +16,10 @@ export class MainMenu extends Scene
 
     create ()
     {
-        this.background = this.add.image(512, 384, 'background');
+        this.background = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height, 'background');
+        this.background.setOrigin(0.5,1);   
+        let scaleToViewport:number = this.sys.game.canvas.height / this.background.height;
+        this.background.setScale(scaleToViewport);
 
         this.logo = this.add.image(512, 300, 'logo').setDepth(100);
 
