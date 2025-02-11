@@ -50,11 +50,11 @@ export class AppComponent implements AfterViewInit
             const scene = this.phaserRef.scene as MainMenu;
 
             // Get the update logo position
-            scene.moveLogo(({ x, y }) => {
+            /*scene.moveLogo(({ x, y }) => {
 
                 this.spritePosition = { x, y };
 
-            });
+            });*/
 
         }
 
