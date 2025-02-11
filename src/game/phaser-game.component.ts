@@ -7,6 +7,11 @@ import { EventBus } from "./EventBus";
     selector: 'phaser-game',
     template: '<div id="game-container"></div>',
     standalone: true,
+    styles:`
+    #game-container {
+        width: 100vh;
+        height: 100vh;
+    }`,
 })
 export class PhaserGame implements OnInit
 {
