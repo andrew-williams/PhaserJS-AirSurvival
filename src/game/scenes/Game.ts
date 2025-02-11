@@ -38,16 +38,9 @@ export class Game extends Scene
 
         //this.camera.setBackgroundColor(0x00ff00);
 
-        //this.background = this.add.image(0, 0, 'gameHUD');
-        //this.background.setAlpha(0.5);
-/*
-        this.gameText = this.add.text(512, 384, 'Make something fun! test\nand share it with us:\nsupport@phaser.io', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
-            align: 'center'
-        }).setOrigin(0.5).setDepth(100);
-*/
-        this.player = new Player(this);
+        this.player = new Player(this, this.sys.game.canvas.width / 2, this.sys.game.canvas.height + 200);
+        this.player.init();
+
         this.cursors = this.input.keyboard?.createCursorKeys();
        
         EventBus.emit('current-scene-ready', this);
@@ -55,35 +48,40 @@ export class Game extends Scene
 
     changeScene ()
     {
+        this.player.destructor();
         this.scene.start('GameOver');
     }
     
     override update(time: number, delta: number):void
     {
-        if (this.cursors.left.isDown)
+        if (this.player.getAllowMovement())
         {
-            this.player.setVelocityX(-400);
+            if (this.cursors.left.isDown)
+            {
+                this.player.setVelocityX(-400);
+            }
+            else if (this.cursors.right.isDown)
+            {
+                this.player.setVelocityX(400);
+            }
+            else
+            {
+                this.player.setVelocityX(0);
+            }
+            if (this.cursors.up.isDown)
+            {
+                this.player.setVelocityY(-400);
+            }
+            else if (this.cursors.down.isDown)
+            {
+                this.player.setVelocityY(400);
+            }
+            else
+            {
+                this.player.setVelocityY(0);
+            }
         }
-        else if (this.cursors.right.isDown)
-        {
-            this.player.setVelocityX(400);
-        }
-        else
-        {
-            this.player.setVelocityX(0);
-        }
-        if (this.cursors.up.isDown)
-        {
-            this.player.setVelocityY(-400);
-        }
-        else if (this.cursors.down.isDown)
-        {
-            this.player.setVelocityY(400);
-        }
-        else
-        {
-            this.player.setVelocityY(0);
-        }
+        
     }
 
 }
