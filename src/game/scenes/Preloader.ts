@@ -1,7 +1,10 @@
 import { GameObjects, Scene } from 'phaser';
+import { TitleBackground } from './TitleBackground';
 
 export class Preloader extends Scene
 {
+
+    private m_titleBackground:TitleBackground;
     
     constructor ()
     {
@@ -10,13 +13,7 @@ export class Preloader extends Scene
 
     init ()
     {
-        
-        //  We loaded this image in our Boot Scene, so we can display it here
-        let background:GameObjects.Image = this.add.image(this.sys.game.canvas.width / 2, this.sys.game.canvas.height, 'background');
-        background.setOrigin(0.5,1);   
-        let scaleToViewport:number = this.sys.game.canvas.height / background.height;
-        background.setScale(scaleToViewport);
-
+        this.m_titleBackground = new TitleBackground(this);
         //  A simple progress bar. This is the outline of the bar.
         let rectangle:GameObjects.Rectangle = this.add.rectangle(this.sys.game.canvas.width * 0.1, this.sys.game.canvas.height * 0.95, this.sys.game.canvas.width * 0.8, 32).setStrokeStyle(1, 0xffffff);
         rectangle.setOrigin(0, 1);
@@ -42,8 +39,11 @@ export class Preloader extends Scene
         this.load.image('logo', 'logo.png');
         this.load.image('star', 'star.png');
 
+        // Audio
+        this.load.audio('snd_mainmenu', 'Music/cyberrainforce_snowy_town.mp3');
         // GUI
         this.load.image('gameHUD', 'GUI/TempHud.png');
+        this.load.image('gui_button', 'GUI/Button.png');
         // Level
         this.load.image('roomTemplate', 'Level/BaseFloor.png');
         this.load.image('tempTile', 'Level/TempTile.png');
