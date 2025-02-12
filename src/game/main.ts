@@ -31,12 +31,14 @@ const config: Phaser.Types.Core.GameConfig = {
     pixelArt: true,
     input:
     {
-        keyboard: true
+        keyboard: true,
+        mouse: true,
+        touch: true
     },
     scale:
     {
         mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
     }
     
 };

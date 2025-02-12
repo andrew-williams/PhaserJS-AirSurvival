@@ -9,8 +9,9 @@ import { EventBus } from "./EventBus";
     standalone: true,
     styles:`
     #game-container {
-        width: 100vh;
+        width: 100vw;
         height: 100vh;
+        vertical-align: top;
     }`,
 })
 export class PhaserGame implements OnInit
