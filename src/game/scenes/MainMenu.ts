@@ -1,4 +1,4 @@
-import { GameObjects, Scene } from 'phaser';
+import { Events, GameObjects, Input, Scene } from 'phaser';
 
 import { EventBus } from '../EventBus';
 import { TitleBackground } from './TitleBackground';
@@ -8,8 +8,10 @@ export class MainMenu extends Scene
 {
     private m_background:TitleBackground;
     private m_backgroundMusic:any;
-    private m_buttonGroup:Phaser.GameObjects.Group;
-    private m_testButton:GUIButton;
+    private m_playButton:GUIButton;
+    private m_helpButton:GUIButton;
+    private m_creditsButton:GUIButton;
+    private m_soundboardButton:GUIButton;
 
     constructor ()
     {
@@ -22,10 +24,17 @@ export class MainMenu extends Scene
         this.m_backgroundMusic = this.sound.add('snd_mainmenu', {loop:true});
         this.m_backgroundMusic.play(this.sound);
 
-        // NEXT TODO: ADD BUTTONS
-        /*this.m_testButton = new GUIButton(this, 0, 0);
-        this.m_buttonGroup = this.add.group(this.m_testButton);
-        this.m_buttonGroup.setXY(200, 200, 1, 1);*/
+        let buttonPadding:number = 8;
+        let buttonXPos:number = this.sys.game.canvas.width * 0.84 - buttonPadding;
+        this.m_soundboardButton = new GUIButton(this, buttonXPos, this.sys.game.canvas.height * 0.975 - buttonPadding, 0.8, 31);
+        this.m_creditsButton = new GUIButton(this, buttonXPos, this.m_soundboardButton.y - this.m_soundboardButton.height - buttonPadding, 0.8, 31);
+        this.m_helpButton = new GUIButton(this, buttonXPos, this.m_creditsButton.y - this.m_creditsButton.height - buttonPadding, 0.8, 31);
+        this.m_playButton = new GUIButton(this, buttonXPos, this.m_helpButton.y - this.m_helpButton.height - buttonPadding, 0.8, 31);
+        this.m_playButton.setButtonCallback(() => this.changeScene());
+        this.m_soundboardButton.setButtonText("Soundboard");
+        this.m_creditsButton.setButtonText("Credits");
+        this.m_helpButton.setButtonText("Help");
+        this.m_playButton.setButtonText("Play");
 
         EventBus.emit('current-scene-ready', this);
     }
@@ -35,6 +44,7 @@ export class MainMenu extends Scene
         this.m_backgroundMusic.stop();        
         this.scene.start('Game');
     }
+
 /*
     moveLogo (vueCallback: ({ x, y }: { x: number, y: number }) => void)
     {
