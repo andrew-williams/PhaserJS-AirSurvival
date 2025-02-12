@@ -37,12 +37,13 @@ export class Game extends Scene
         //this.level.generateLevel();
 
         //this.camera.setBackgroundColor(0x00ff00);
-
+        // Create Player
         this.player = new Player(this, this.sys.game.canvas.width / 2, this.sys.game.canvas.height + 200);
         this.player.init();
 
-        this.cursors = this.input.keyboard?.createCursorKeys();
-       
+       // this.cursors = this.input.keyboard?.createCursorKeys();
+        this.initSceneListeners();
+
         EventBus.emit('current-scene-ready', this);
     }
 
@@ -56,6 +57,8 @@ export class Game extends Scene
     {
         if (this.player.getAllowMovement())
         {
+            /*
+            // Keyboard Movement as a test
             if (this.cursors.left.isDown)
             {
                 this.player.setVelocityX(-400);
@@ -79,9 +82,56 @@ export class Game extends Scene
             else
             {
                 this.player.setVelocityY(0);
-            }
+            }*/
+            // Touch Movement Test
+            /*const pointer:Phaser.Input.Pointer = this.input.activePointer;
+            if (this.input.activePointer.isDown)
+            {
+                this.player.movePlayer(pointer.x, pointer.y);
+            }*/
+           
         }
         
+    }
+
+    private initSceneListeners():void
+    {
+        // Add Pointer Down
+        this.input.on('pointerdown', (pointer:Phaser.Input.Pointer) =>
+        {
+            // Player Movement
+            if (this.player != null)
+            {
+                this.player.startMovement(pointer.x, pointer.y);
+            }
+        }, this);
+
+        // Add Pointer Move
+        this.input.on('pointermove', (pointer:Phaser.Input.Pointer) =>
+        {
+            if (this.player != null)
+            {
+                this.player.movePlayer(pointer.x, pointer.y);
+            }
+        }, this);
+
+        // Add Pointer Up
+        this.input.on('pointerup', (pointer:Phaser.Input.Pointer) =>
+        {
+            if (this.player != null)
+            {
+                this.player.stopMovement();
+            }
+        }, this);
+
+        // Mouse/Touch out of game
+        this.input.on('gameout', (pointer:Phaser.Input.Pointer) =>
+        {
+            if (this.player != null)
+            {
+                this.player.stopMovement();
+            }
+        }, this);
     }
 
 }

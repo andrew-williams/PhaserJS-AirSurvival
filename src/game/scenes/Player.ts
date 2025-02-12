@@ -4,7 +4,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite
 {
 
     private m_allowMovement:boolean = false;
+    private m_isMoving:boolean = false;
     private m_introTween:Tweens.Tween | null;
+
+    private m_startXMovementPos:number;
+    private m_startYMovementPos:number;
+    private m_startXSpritePos:number;
+    private m_startYSpritePos:number;
 
     constructor (parentScene:Phaser.Scene, startX:number, startY:number)
     {
@@ -40,7 +46,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite
 
     private enableControl():void
     {
-        this.setCollideWorldBounds(true);
         this.m_allowMovement = true;
     }
 
@@ -56,6 +61,48 @@ export class Player extends Phaser.Physics.Arcade.Sprite
             this.m_introTween.stop();
             this.m_introTween = null;
         }
+    }
+
+    public startMovement(startingXPos:number, startingYPos:number):void
+    {
+        this.m_isMoving = true;
+        this.m_startXMovementPos = startingXPos;
+        this.m_startYMovementPos = startingYPos;
+        this.m_startXSpritePos = this.x;
+        this.m_startYSpritePos = this.y;
+    }
+    public movePlayer(updatedXPos:number, updatedYPos:number):void
+    {
+        // Currently for touch movement
+        if (this.m_allowMovement && this.m_isMoving)
+        {
+            let movementX:number = updatedXPos - this.m_startXMovementPos;
+            let movementY:number = updatedYPos - this.m_startYMovementPos;
+            this.x = this.m_startXSpritePos + movementX;
+            this.y = this.m_startYSpritePos + movementY;
+            if (this.x < this.width / 2)
+            {
+                this.x = this.width / 2;
+            }
+            else if (this.x > this.scene.sys.game.canvas.width - this.width / 2)
+            {
+                this.x = this.scene.sys.game.canvas.width - this.width / 2;
+            }
+            if (this.y < this.height / 2)
+            {
+                this.y = this.height / 2;
+            }
+            else if (this.y > this.scene.sys.game.canvas.height - this.height / 2)
+            {
+                this.y = this.scene.sys.game.canvas.height - this.height / 2;
+            }
+        }
+
+    }
+
+    public stopMovement():void
+    {
+        this.m_isMoving = false;
     }
 
 }
