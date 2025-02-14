@@ -41,6 +41,7 @@ export class Preloader extends Scene
 
         // Audio
         this.load.audio('snd_mainmenu', 'Music/cyberrainforce_snowy_town.mp3');
+        this.load.audio('snd_game', 'Music/cyberrainforce_closed_the_future_long_ver.mp3');
         // GUI
         this.load.image('gameHUD', 'GUI/TempHud.png');
         this.load.image('gui_button', 'GUI/Button.png');
@@ -50,6 +51,8 @@ export class Preloader extends Scene
         this.load.image('tempTile2', 'Level/TempTile2.png');
         this.load.image('start', 'Level/start.png');
         this.load.image('exit', 'Level/exit.png');
+        // Backgrounds
+        this.load.image('tempbg', 'Level/Temp_Backdrop.png');
         // Entities
         this.load.spritesheet('player', 'Player/Player_SpriteSheet.png', { frameWidth : 64, frameHeight : 64 });
     }

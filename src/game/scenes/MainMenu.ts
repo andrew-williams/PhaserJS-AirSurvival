@@ -7,7 +7,7 @@ import { GUIButton } from './GUIButton';
 export class MainMenu extends Scene
 {
     private m_background:TitleBackground;
-    private m_backgroundMusic:any;
+    private m_backgroundMusic:Phaser.Sound.WebAudioSound | Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound;
     private m_playButton:GUIButton;
     private m_helpButton:GUIButton;
     private m_creditsButton:GUIButton;
@@ -23,6 +23,7 @@ export class MainMenu extends Scene
         this.m_background = new TitleBackground(this);
         this.m_backgroundMusic = this.sound.add('snd_mainmenu', {loop:true});
         this.m_backgroundMusic.play(this.sound);
+        this.m_backgroundMusic.setVolume(0.5);
 
         let buttonPadding:number = 8;
         let buttonXPos:number = this.sys.game.canvas.width * 0.84 - buttonPadding;

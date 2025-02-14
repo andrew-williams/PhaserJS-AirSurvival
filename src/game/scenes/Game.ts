@@ -4,6 +4,7 @@ import { GameHUD } from '../UI/GameHUD';
 import { Room } from '../Level/Room';
 import { Level } from '../Level/Level';
 import { Player } from './Player';
+import { ScrollingBackground } from './ScrollingBackground';
 
 export class Game extends Scene
 {
@@ -18,6 +19,8 @@ export class Game extends Scene
     cursors:any;
 
     private m_fireRate:number = 8;
+    private m_backgroundMusic:Phaser.Sound.WebAudioSound | Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound;
+    private m_scrollingBackground:ScrollingBackground;
 
     constructor ()
     {
@@ -37,6 +40,12 @@ export class Game extends Scene
         //this.level.generateLevel();
 
         //this.camera.setBackgroundColor(0x00ff00);
+        this.m_backgroundMusic = this.sound.add('snd_game', {loop:true});
+        this.m_backgroundMusic.play(this.sound);
+        this.m_backgroundMusic.setVolume(0.5);
+
+        this.m_scrollingBackground = new ScrollingBackground(this);
+
         // Create Player
         this.player = new Player(this, this.sys.game.canvas.width / 2, this.sys.game.canvas.height + 200);
         this.player.init();
@@ -90,6 +99,10 @@ export class Game extends Scene
                 this.player.movePlayer(pointer.x, pointer.y);
             }*/
            
+        }
+        if (this.m_scrollingBackground != null)
+        {
+            this.m_scrollingBackground.update();
         }
         
     }
