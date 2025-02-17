@@ -5,6 +5,8 @@ import { Room } from '../Level/Room';
 import { Level } from '../Level/Level';
 import { Player } from './Player';
 import { ScrollingBackground } from './ScrollingBackground';
+import { Item } from './Item';
+import { AnimConfigs } from './AnimConfigs';
 
 export class Game extends Scene
 {
@@ -21,6 +23,8 @@ export class Game extends Scene
     private m_fireRate:number = 8;
     private m_backgroundMusic:Phaser.Sound.WebAudioSound | Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound;
     private m_scrollingBackground:ScrollingBackground;
+
+    private m_testItem:Item;
 
     constructor ()
     {
@@ -50,6 +54,21 @@ export class Game extends Scene
         this.player = new Player(this, this.sys.game.canvas.width / 2, this.sys.game.canvas.height + 200);
         this.player.init();
 
+        // TODO BLOCK: Fix collision boxes between player and item, Add test respawn of items, add item manager
+        // Test Item
+        AnimConfigs.createAnims(this);
+        this.m_testItem = new Item(this, Math.floor(Math.random() * 300), Math.floor(Math.random() * 500), 'item_bullet_spritesheet', 'bullet_powerup_spritesheet');
+        this.physics.add.overlap(this.player, this.m_testItem, this.onTestOverlap, undefined, this);
+
+        /*this.time.addEvent(
+        {
+            delay : 5000,
+            repeat : 0,
+            loop : true,
+            callback : this.onTestTimerTick
+        });*/
+        // END TODO BLOCK
+
        // this.cursors = this.input.keyboard?.createCursorKeys();
         this.initSceneListeners();
 
@@ -62,6 +81,20 @@ export class Game extends Scene
         this.scene.start('GameOver');
     }
     
+  /*  private onTestTimerTick():void
+    {
+        console.log('tick');
+        if (!this.m_testItem.active)
+        {
+            this.m_testItem.enableItem(Math.floor(Math.random() * 300), Math.floor(Math.random() * 500));
+        }
+    }*/
+
+    private onTestOverlap(player:any, powerup:any):void
+    {
+        powerup.relocateTemp();
+    }
+
     override update(time: number, delta: number):void
     {
         if (this.player.getAllowMovement())
