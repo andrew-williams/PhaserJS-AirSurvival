@@ -54,7 +54,9 @@ export class Preloader extends Scene
         // Backgrounds
         this.load.image('tempbg', 'Level/Temp_Backdrop.png');
         // Entities
-        this.load.spritesheet('player', 'Player/Player_SpriteSheet.png', { frameWidth : 64, frameHeight : 64 });
+        this.load.spritesheet('player', 'Player/Player_SpriteSheet.png', { frameWidth : 48, frameHeight : 48 });
+        this.load.spritesheet('item_bullet_spritesheet', 'Items/B_SpriteSheet.png', { frameWidth : 32, frameHeight : 32 });
+        this.load.image('item_bullet', 'Items/BulletSprite.png');
     }
 
     create ()
